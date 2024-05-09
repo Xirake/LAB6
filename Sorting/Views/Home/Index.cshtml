@@ -1,0 +1,52 @@
+﻿@model List<SortedFileModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Upload and Sort File</h2>
+
+@using (Html.BeginForm("UploadAndSort", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <label for="file">Виберіть файл:</label>
+        <input type="file" name="file" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="sortingMethod">Виберіть метод сортування:</label>
+        <select name="sortingMethod" class="form-control">
+            <option value="BubbleSort">Сортування бульбашкою</option>
+            <option value="SelectionSortArray">Сортування вибором</option>
+            <option value="Timsort">Сортування методом Timsort</option>
+            <!-- Додайте інші методи сортування за потребою -->
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сортувати</button>
+}
+
+<h2>Sorted Files</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ім'я файлу</th>
+            <th>Розмір файлу</th>
+            <th>Метод сортування</th>
+            <th>Час сортування</th>
+            <th>Скачати</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var file in Model)
+        {
+            <tr>
+                <td>@file.FileName</td>
+                <td>@file.FileSize</td>
+                <td>@file.SortingMethod</td>
+                <td>@file.SortingTime</td>
+                <td><a asp-action="Download" asp-route-filename="@file.FileName">Download</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
